@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.fragmentos.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.fragmentos.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_nav_gallery_to_alunoFragment"
+            app:destination="@id/alunoFragment" />
+        <action
+            android:id="@+id/action_nav_gallery_to_responsavelFragment"
+            app:destination="@id/responsavelFragment" />
+        <action
+            android:id="@+id/action_nav_gallery_to_turmaFragment2"
+            app:destination="@id/turmaFragment" />
+        <action
+            android:id="@+id/action_nav_gallery_to_tripulanteFragment"
+            app:destination="@id/tripulanteFragment" />
+        <action
+            android:id="@+id/action_nav_gallery_to_escolaFragment"
+            app:destination="@id/escolaFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.fragmentos.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/alunoFragment"
+        android:name="com.example.fragmentos.AlunoFragment"
+        android:label="fragment_aluno"
+        tools:layout="@layout/fragment_aluno" />
+    <fragment
+        android:id="@+id/responsavelFragment"
+        android:name="com.example.fragmentos.ResponsavelFragment"
+        android:label="fragment_responsavel"
+        tools:layout="@layout/fragment_responsavel" />
+    <fragment
+        android:id="@+id/turmaFragment"
+        android:name="com.example.fragmentos.TurmaFragment"
+        android:label="fragment_turma"
+        tools:layout="@layout/fragment_turma" />
+    <fragment
+        android:id="@+id/tripulanteFragment"
+        android:name="com.example.fragmentos.TripulanteFragment"
+        android:label="fragment_tripulante"
+        tools:layout="@layout/fragment_tripulante" />
+    <fragment
+        android:id="@+id/escolaFragment"
+        android:name="com.example.fragmentos.EscolaFragment"
+        android:label="fragment_escola"
+        tools:layout="@layout/fragment_escola" />
+</navigation>
