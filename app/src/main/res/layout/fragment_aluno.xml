@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AlunoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/imageViewAlunoHeader"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Imagem de Aluno"
+        app:srcCompat="@drawable/aluno"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNomeAluno"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextNomeAluno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Nome Completo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAlunoHeader"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDataNascimento" />
+
+    <EditText
+        android:id="@+id/editTextDataNascimento"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Data de Nascimento"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomeAluno"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNomeResponsavel" />
+
+    <EditText
+        android:id="@+id/editTextNomeResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Nome do Responsável"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDataNascimento"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTelefoneResponsavel" />
+
+    <EditText
+        android:id="@+id/editTextTelefoneResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Telefone do Responsável"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomeResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEndereco" />
+
+    <EditText
+        android:id="@+id/editTextEndereco"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Endereço"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTelefoneResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSalvarAluno" />
+
+    <Button
+        android:id="@+id/buttonSalvarAluno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Salvar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEndereco"
+        app_layout_constraintBottom_toTopOf="@+id/recyclerViewAlunos" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAlunos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSalvarAluno"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_aluno" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

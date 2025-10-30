@@ -41,26 +41,26 @@
     <fragment
         android:id="@+id/alunoFragment"
         android:name="com.example.fragmentos.AlunoFragment"
-        android:label="fragment_aluno"
+        android:label="Cadastro de Aluno"
         tools:layout="@layout/fragment_aluno" />
     <fragment
         android:id="@+id/responsavelFragment"
         android:name="com.example.fragmentos.ResponsavelFragment"
-        android:label="fragment_responsavel"
+        android:label="Cadastro de Responsável"
         tools:layout="@layout/fragment_responsavel" />
     <fragment
         android:id="@+id/turmaFragment"
         android:name="com.example.fragmentos.TurmaFragment"
-        android:label="fragment_turma"
+        android:label="Cadastro de Turma"
         tools:layout="@layout/fragment_turma" />
     <fragment
         android:id="@+id/tripulanteFragment"
         android:name="com.example.fragmentos.TripulanteFragment"
-        android:label="fragment_tripulante"
+        android:label="Cadastro de Tripulante"
         tools:layout="@layout/fragment_tripulante" />
     <fragment
         android:id="@+id/escolaFragment"
         android:name="com.example.fragmentos.EscolaFragment"
-        android:label="fragment_escola"
+        android:label="Cadastro de Escola"
         tools:layout="@layout/fragment_escola" />
 </navigation>

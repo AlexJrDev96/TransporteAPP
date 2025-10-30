@@ -1,14 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ResponsavelFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/imageViewResponsavelHeader"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Imagem do Responsável"
+        app:srcCompat="@drawable/responsaveis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNomeResponsavel"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextNomeResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Nome Completo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewResponsavelHeader"
+        app:layout_constraintBottom_toTopOf="@+id/editTextCpfResponsavel" />
+
+    <EditText
+        android:id="@+id/editTextCpfResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="CPF"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomeResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTelefoneResponsavel" />
+
+    <EditText
+        android:id="@+id/editTextTelefoneResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Telefone"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCpfResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEmailResponsavel" />
+
+    <EditText
+        android:id="@+id/editTextEmailResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTelefoneResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEnderecoResponsavel" />
+
+    <EditText
+        android:id="@+id/editTextEnderecoResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Endereço"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSalvarResponsavel" />
+
+    <Button
+        android:id="@+id/buttonSalvarResponsavel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Salvar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnderecoResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewResponsaveis" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewResponsaveis"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSalvarResponsavel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_responsavel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

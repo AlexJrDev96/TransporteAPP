@@ -1,59 +1,81 @@
 package com.example.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fragmentos.databinding.FragmentAlunoBinding
+import com.example.fragmentos.db.entity.Aluno
+import com.example.fragmentos.ui.aluno.AlunoListAdapter
+import com.example.fragmentos.ui.aluno.AlunoViewModel
+import com.example.fragmentos.ui.aluno.AlunoViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AlunoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AlunoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var _binding: FragmentAlunoBinding? = null
+    private val binding get() = _binding!!
+
+    private val alunoViewModel: AlunoViewModel by viewModels {
+        AlunoViewModelFactory((activity?.application as TransporteApplication).alunoRepository)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_aluno, container, false)
+    ): View {
+        _binding = FragmentAlunoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AlunoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AlunoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = AlunoListAdapter()
+        binding.recyclerViewAlunos.adapter = adapter
+        binding.recyclerViewAlunos.layoutManager = LinearLayoutManager(context)
+
+        alunoViewModel.allAlunos.asLiveData().observe(viewLifecycleOwner) {
+            alunos ->
+                alunos?.let { adapter.submitList(it) }
+        }
+
+        binding.buttonSalvarAluno.setOnClickListener {
+            val nome = binding.editTextNomeAluno.text.toString()
+            val dataNascimento = binding.editTextDataNascimento.text.toString()
+            val nomeResponsavel = binding.editTextNomeResponsavel.text.toString()
+            val telefoneResponsavel = binding.editTextTelefoneResponsavel.text.toString()
+            val endereco = binding.editTextEndereco.text.toString()
+
+            if (nome.isNotBlank() && nomeResponsavel.isNotBlank()) {
+                val aluno = Aluno(
+                    nome = nome, 
+                    dataNascimento = dataNascimento, 
+                    nomeResponsavel = nomeResponsavel, 
+                    telefoneResponsavel = telefoneResponsavel, 
+                    endereco = endereco
+                )
+                alunoViewModel.insert(aluno)
+
+                // Limpar campos após inserção
+                binding.editTextNomeAluno.text.clear()
+                binding.editTextDataNascimento.text.clear()
+                binding.editTextNomeResponsavel.text.clear()
+                binding.editTextTelefoneResponsavel.text.clear()
+                binding.editTextEndereco.text.clear()
+            } else {
+                Toast.makeText(context, "Nome e nome do responsável são obrigatórios", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

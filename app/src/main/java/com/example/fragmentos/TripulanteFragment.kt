@@ -1,59 +1,73 @@
 package com.example.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fragmentos.databinding.FragmentTripulanteBinding
+import com.example.fragmentos.db.entity.Tripulante
+import com.example.fragmentos.ui.tripulante.TripulanteListAdapter
+import com.example.fragmentos.ui.tripulante.TripulanteViewModel
+import com.example.fragmentos.ui.tripulante.TripulanteViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TripulanteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TripulanteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var _binding: FragmentTripulanteBinding? = null
+    private val binding get() = _binding!!
+
+    private val tripulanteViewModel: TripulanteViewModel by viewModels {
+        TripulanteViewModelFactory((activity?.application as TransporteApplication).tripulanteRepository)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tripulante, container, false)
+    ): View {
+        _binding = FragmentTripulanteBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TripulanteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TripulanteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = TripulanteListAdapter()
+        binding.recyclerViewTripulantes.adapter = adapter
+        binding.recyclerViewTripulantes.layoutManager = LinearLayoutManager(context)
+
+        tripulanteViewModel.allTripulantes.asLiveData().observe(viewLifecycleOwner) {
+            tripulantes ->
+                tripulantes?.let { adapter.submitList(it) }
+        }
+
+        binding.buttonSalvar.setOnClickListener {
+            val nome = binding.editTextNome.text.toString()
+            val funcao = binding.editTextFuncao.text.toString()
+            val telefone = binding.editTextTelefone.text.toString()
+            val cpf = binding.editTextCpf.text.toString()
+
+            if (nome.isNotBlank() && funcao.isNotBlank()) {
+                val tripulante = Tripulante(nome = nome, funcao = funcao, telefone = telefone, cpf = cpf)
+                tripulanteViewModel.insert(tripulante)
+
+                // Limpar campos após inserção
+                binding.editTextNome.text.clear()
+                binding.editTextFuncao.text.clear()
+                binding.editTextTelefone.text.clear()
+                binding.editTextCpf.text.clear()
+            } else {
+                Toast.makeText(context, "Nome e função são obrigatórios", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

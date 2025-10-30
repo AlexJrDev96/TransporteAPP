@@ -1,59 +1,71 @@
 package com.example.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fragmentos.databinding.FragmentEscolaBinding
+import com.example.fragmentos.db.entity.Escola
+import com.example.fragmentos.ui.escola.EscolaListAdapter
+import com.example.fragmentos.ui.escola.EscolaViewModel
+import com.example.fragmentos.ui.escola.EscolaViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EscolaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EscolaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var _binding: FragmentEscolaBinding? = null
+    private val binding get() = _binding!!
+
+    private val escolaViewModel: EscolaViewModel by viewModels {
+        EscolaViewModelFactory((activity?.application as TransporteApplication).escolaRepository)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_escola, container, false)
+    ): View {
+        _binding = FragmentEscolaBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EscolaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EscolaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = EscolaListAdapter()
+        binding.recyclerViewEscolas.adapter = adapter
+        binding.recyclerViewEscolas.layoutManager = LinearLayoutManager(context)
+
+        escolaViewModel.allEscolas.asLiveData().observe(viewLifecycleOwner) {
+            escolas ->
+                escolas?.let { adapter.submitList(it) }
+        }
+
+        binding.buttonSalvarEscola.setOnClickListener {
+            val nome = binding.editTextNomeEscola.text.toString()
+            val endereco = binding.editTextEnderecoEscola.text.toString()
+            val telefone = binding.editTextTelefoneEscola.text.toString()
+
+            if (nome.isNotBlank()) {
+                val escola = Escola(nome = nome, endereco = endereco, telefone = telefone)
+                escolaViewModel.insert(escola)
+
+                // Limpar campos após inserção
+                binding.editTextNomeEscola.text.clear()
+                binding.editTextEnderecoEscola.text.clear()
+                binding.editTextTelefoneEscola.text.clear()
+            } else {
+                Toast.makeText(context, "Nome da escola é obrigatório", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

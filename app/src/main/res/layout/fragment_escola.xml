@@ -1,14 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EscolaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/imageViewEscolaHeader"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Imagem da Escola"
+        app:srcCompat="@drawable/escola"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNomeEscola"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextNomeEscola"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Nome da Escola"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEscolaHeader"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEnderecoEscola" />
+
+    <EditText
+        android:id="@+id/editTextEnderecoEscola"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Endereço"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomeEscola"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTelefoneEscola" />
+
+    <EditText
+        android:id="@+id/editTextTelefoneEscola"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Telefone"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEnderecoEscola"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSalvarEscola" />
+
+    <Button
+        android:id="@+id/buttonSalvarEscola"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Salvar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTelefoneEscola"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewEscolas" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewEscolas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSalvarEscola"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_escola" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
