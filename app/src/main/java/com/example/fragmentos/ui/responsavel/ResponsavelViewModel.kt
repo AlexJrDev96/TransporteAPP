@@ -1,5 +1,7 @@
 package com.example.fragmentos.ui.responsavel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -12,8 +14,27 @@ class ResponsavelViewModel(private val repository: ResponsavelRepository) : View
 
     val allResponsaveis: Flow<List<Responsavel>> = repository.allResponsaveis
 
+    private val _responsavelEmEdicao = MutableLiveData<Responsavel?>()
+    val responsavelEmEdicao: LiveData<Responsavel?> = _responsavelEmEdicao
+
     fun insert(responsavel: Responsavel) = viewModelScope.launch {
         repository.insert(responsavel)
+    }
+
+    fun update(responsavel: Responsavel) = viewModelScope.launch {
+        repository.update(responsavel)
+    }
+
+    fun delete(responsavel: Responsavel) = viewModelScope.launch {
+        repository.delete(responsavel)
+    }
+
+    fun onResponsavelEditClicked(responsavel: Responsavel) {
+        _responsavelEmEdicao.value = responsavel
+    }
+
+    fun onEditConcluido() {
+        _responsavelEmEdicao.value = null
     }
 }
 

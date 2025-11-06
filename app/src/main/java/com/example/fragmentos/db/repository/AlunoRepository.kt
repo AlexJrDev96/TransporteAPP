@@ -11,4 +11,12 @@ class AlunoRepository(private val alunoDao: AlunoDao) {
     suspend fun insert(aluno: Aluno) {
         alunoDao.insert(aluno)
     }
+
+    suspend fun update(aluno: Aluno) {
+        alunoDao.update(aluno)
+    }
+
+    suspend fun delete(aluno: Aluno) {
+        alunoDao.delete(aluno)
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.fragmentos.db.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.fragmentos.db.entity.Aluno
 import kotlinx.coroutines.flow.Flow
 
@@ -11,6 +13,12 @@ interface AlunoDao {
 
     @Insert
     suspend fun insert(aluno: Aluno)
+
+    @Update
+    suspend fun update(aluno: Aluno)
+
+    @Delete
+    suspend fun delete(aluno: Aluno)
 
     @Query("SELECT * FROM aluno ORDER BY nome ASC")
     fun getAll(): Flow<List<Aluno>>

@@ -1,5 +1,6 @@
 package com.example.fragmentos
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,13 +37,34 @@ class ResponsavelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ResponsavelListAdapter()
+        val adapter = ResponsavelListAdapter(
+            onDeleteClicked = { responsavel -> showDeleteConfirmationDialog(responsavel) },
+            onEditClicked = { responsavel -> responsavelViewModel.onResponsavelEditClicked(responsavel) }
+        )
+
         binding.recyclerViewResponsaveis.adapter = adapter
         binding.recyclerViewResponsaveis.layoutManager = LinearLayoutManager(context)
 
         responsavelViewModel.allResponsaveis.asLiveData().observe(viewLifecycleOwner) {
-            responsaveis ->
-                responsaveis?.let { adapter.submitList(it) }
+            responsaveis -> responsaveis?.let { adapter.submitList(it) }
+        }
+
+        responsavelViewModel.responsavelEmEdicao.observe(viewLifecycleOwner) { responsavel ->
+            if (responsavel != null) {
+                binding.editTextNomeResponsavel.setText(responsavel.nome)
+                binding.editTextCpfResponsavel.setText(responsavel.cpf)
+                binding.editTextTelefoneResponsavel.setText(responsavel.telefone)
+                binding.editTextEmailResponsavel.setText(responsavel.email)
+                binding.editTextEnderecoResponsavel.setText(responsavel.endereco)
+                binding.buttonSalvarResponsavel.text = "Atualizar"
+            } else {
+                binding.editTextNomeResponsavel.text.clear()
+                binding.editTextCpfResponsavel.text.clear()
+                binding.editTextTelefoneResponsavel.text.clear()
+                binding.editTextEmailResponsavel.text.clear()
+                binding.editTextEnderecoResponsavel.text.clear()
+                binding.buttonSalvarResponsavel.text = "Salvar"
+            }
         }
 
         binding.buttonSalvarResponsavel.setOnClickListener {
@@ -53,29 +75,47 @@ class ResponsavelFragment : Fragment() {
             val endereco = binding.editTextEnderecoResponsavel.text.toString()
 
             if (nome.isNotBlank() && cpf.isNotBlank()) {
-                val responsavel = Responsavel(
-                    nome = nome, 
-                    cpf = cpf, 
-                    telefone = telefone, 
-                    email = email, 
-                    endereco = endereco
-                )
-                responsavelViewModel.insert(responsavel)
-
-                // Limpar campos após inserção
-                binding.editTextNomeResponsavel.text.clear()
-                binding.editTextCpfResponsavel.text.clear()
-                binding.editTextTelefoneResponsavel.text.clear()
-                binding.editTextEmailResponsavel.text.clear()
-                binding.editTextEnderecoResponsavel.text.clear()
+                val responsavelEmEdicao = responsavelViewModel.responsavelEmEdicao.value
+                if (responsavelEmEdicao != null) {
+                    val responsavelAtualizado = responsavelEmEdicao.copy(
+                        nome = nome, 
+                        cpf = cpf, 
+                        telefone = telefone, 
+                        email = email, 
+                        endereco = endereco
+                    )
+                    responsavelViewModel.update(responsavelAtualizado)
+                } else {
+                    val novoResponsavel = Responsavel(
+                        nome = nome, 
+                        cpf = cpf, 
+                        telefone = telefone, 
+                        email = email, 
+                        endereco = endereco
+                    )
+                    responsavelViewModel.insert(novoResponsavel)
+                }
+                responsavelViewModel.onEditConcluido()
             } else {
                 Toast.makeText(context, "Nome e CPF são obrigatórios", Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    private fun showDeleteConfirmationDialog(responsavel: Responsavel) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Deletar Responsável")
+            .setMessage("Tem certeza que deseja deletar ${responsavel.nome}?")
+            .setPositiveButton("Sim") { _, _ ->
+                responsavelViewModel.delete(responsavel)
+            }
+            .setNegativeButton("Não", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        responsavelViewModel.onEditConcluido()
     }
 }

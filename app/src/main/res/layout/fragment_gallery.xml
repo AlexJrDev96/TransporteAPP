@@ -6,87 +6,105 @@
     android:layout_height="match_parent"
     tools:context=".ui.gallery.GalleryFragment">
 
+    <!-- Guias para criar uma grade -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <!-- Linha 1 -->
     <ImageButton
-        android:id="@+id/imageButtonEscola"
-        android:contentDescription="Botão Escola"
+        android:id="@+id/imageButtonTripulante"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/escola"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonAluno"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtonTurma"
-        app:layout_constraintHorizontal_bias="0.537"
+        android:contentDescription="Botão Tripulante"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/tripulante"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_middle"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonTripulante"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_top" />
 
     <ImageButton
         android:id="@+id/imageButtonResponsavel"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:contentDescription="Botão Responsavel"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/responsaveis"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonTurma"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_middle"
+        app:layout_constraintStart_toEndOf="@+id/guideline_vertical_center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonTripulante"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.763" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_top" />
 
+    <!-- Linha 2 -->
     <ImageButton
-        android:id="@+id/imageButtonTripulante"
+        android:id="@+id/imageButtonEscola"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="100dp"
-        android:contentDescription="Botão Tripulante"
-        android:scaleType="fitStart"
-        android:src="@drawable/tripulante"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.544" />
+        android:contentDescription="Botão Escola"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/escola"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal_middle"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_center"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButtonTurma"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="300dp"
         android:contentDescription="Botão Turma"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/turma"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.831"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal_middle"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal_bottom"
+        app:layout_constraintStart_toEndOf="@+id/guideline_vertical_center"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Linha 3 (Corrigida e Centralizada) -->
     <ImageButton
         android:id="@+id/imageButtonAluno"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:contentDescription="Botão Aluno"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/aluno"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal_bottom"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

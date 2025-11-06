@@ -11,4 +11,12 @@ class TripulanteRepository(private val tripulanteDao: TripulanteDao) {
     suspend fun insert(tripulante: Tripulante) {
         tripulanteDao.insert(tripulante)
     }
+
+    suspend fun update(tripulante: Tripulante) {
+        tripulanteDao.update(tripulante)
+    }
+
+    suspend fun delete(tripulante: Tripulante) {
+        tripulanteDao.delete(tripulante)
+    }
 }

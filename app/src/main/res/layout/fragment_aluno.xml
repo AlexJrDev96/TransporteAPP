@@ -96,8 +96,7 @@
         android:text="Salvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEndereco"
-        app_layout_constraintBottom_toTopOf="@+id/recyclerViewAlunos" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEndereco" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAlunos"

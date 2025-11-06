@@ -1,5 +1,6 @@
 package com.example.fragmentos
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,13 +37,33 @@ class TripulanteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = TripulanteListAdapter()
+        val adapter = TripulanteListAdapter(
+            onDeleteClicked = { tripulante -> showDeleteConfirmationDialog(tripulante) },
+            onEditClicked = { tripulante -> tripulanteViewModel.onTripulanteEditClicked(tripulante) }
+        )
+
         binding.recyclerViewTripulantes.adapter = adapter
         binding.recyclerViewTripulantes.layoutManager = LinearLayoutManager(context)
 
         tripulanteViewModel.allTripulantes.asLiveData().observe(viewLifecycleOwner) {
             tripulantes ->
                 tripulantes?.let { adapter.submitList(it) }
+        }
+
+        tripulanteViewModel.tripulanteEmEdicao.observe(viewLifecycleOwner) { tripulante ->
+            if (tripulante != null) {
+                binding.editTextNome.setText(tripulante.nome)
+                binding.editTextFuncao.setText(tripulante.funcao)
+                binding.editTextTelefone.setText(tripulante.telefone)
+                binding.editTextCpf.setText(tripulante.cpf)
+                binding.buttonSalvar.text = "Atualizar"
+            } else {
+                binding.editTextNome.text.clear()
+                binding.editTextFuncao.text.clear()
+                binding.editTextTelefone.text.clear()
+                binding.editTextCpf.text.clear()
+                binding.buttonSalvar.text = "Salvar"
+            }
         }
 
         binding.buttonSalvar.setOnClickListener {
@@ -52,22 +73,35 @@ class TripulanteFragment : Fragment() {
             val cpf = binding.editTextCpf.text.toString()
 
             if (nome.isNotBlank() && funcao.isNotBlank()) {
-                val tripulante = Tripulante(nome = nome, funcao = funcao, telefone = telefone, cpf = cpf)
-                tripulanteViewModel.insert(tripulante)
-
-                // Limpar campos após inserção
-                binding.editTextNome.text.clear()
-                binding.editTextFuncao.text.clear()
-                binding.editTextTelefone.text.clear()
-                binding.editTextCpf.text.clear()
+                val tripulanteEmEdicao = tripulanteViewModel.tripulanteEmEdicao.value
+                if (tripulanteEmEdicao != null) {
+                    val tripulanteAtualizado = tripulanteEmEdicao.copy(nome = nome, funcao = funcao, telefone = telefone, cpf = cpf)
+                    tripulanteViewModel.update(tripulanteAtualizado)
+                } else {
+                    val novoTripulante = Tripulante(nome = nome, funcao = funcao, telefone = telefone, cpf = cpf)
+                    tripulanteViewModel.insert(novoTripulante)
+                }
+                tripulanteViewModel.onEditConcluido() // Limpa o formulário e reseta o botão
             } else {
                 Toast.makeText(context, "Nome e função são obrigatórios", Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    private fun showDeleteConfirmationDialog(tripulante: Tripulante) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Deletar Tripulante")
+            .setMessage("Tem certeza que deseja deletar ${tripulante.nome}?")
+            .setPositiveButton("Sim") { _, _ ->
+                tripulanteViewModel.delete(tripulante)
+            }
+            .setNegativeButton("Não", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        tripulanteViewModel.onEditConcluido() // Garante que o modo de edição seja limpo ao sair da tela
     }
 }

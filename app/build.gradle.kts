@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
 }
 
@@ -40,31 +40,43 @@ android {
 }
 
 dependencies {
+    // Definindo versões explícitas para garantir a estabilidade
+    val core_ktx_version = "1.12.0"
+    val appcompat_version = "1.6.1"
+    val material_version = "1.11.0"
+    val constraintlayout_version = "2.1.4"
+    val lifecycle_version = "2.7.0"
+    val nav_version = "2.7.7"
+    val room_version = "2.6.1"
+    val circleimageview_version = "3.1.0"
+    val junit_version = "4.13.2"
+    val androidx_junit_version = "1.1.5"
+    val espresso_core_version = "3.5.1"
+
     // Core
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
+    implementation("androidx.core:core-ktx:$core_ktx_version")
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    implementation("com.google.android.material:material:$material_version")
+    implementation("androidx.constraintlayout:constraintlayout:$constraintlayout_version")
     
-    // Navigation
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+    // Navigation (Causa do erro)
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // ViewModel and LiveData
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
 
     // Room
-    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
 
     // Other
-    implementation(libs.circleimageview)
+    implementation("de.hdodenhof:circleimageview:$circleimageview_version")
     
     // Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation("junit:junit:$junit_version")
+    androidTestImplementation("androidx.test.ext:junit:$androidx_junit_version")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_core_version")
 }

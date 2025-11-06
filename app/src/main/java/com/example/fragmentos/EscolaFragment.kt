@@ -1,5 +1,6 @@
 package com.example.fragmentos
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,13 +37,30 @@ class EscolaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = EscolaListAdapter()
+        val adapter = EscolaListAdapter(
+            onDeleteClicked = { escola -> showDeleteConfirmationDialog(escola) },
+            onEditClicked = { escola -> escolaViewModel.onEscolaEditClicked(escola) }
+        )
+
         binding.recyclerViewEscolas.adapter = adapter
         binding.recyclerViewEscolas.layoutManager = LinearLayoutManager(context)
 
         escolaViewModel.allEscolas.asLiveData().observe(viewLifecycleOwner) {
-            escolas ->
-                escolas?.let { adapter.submitList(it) }
+            escolas -> escolas?.let { adapter.submitList(it) }
+        }
+
+        escolaViewModel.escolaEmEdicao.observe(viewLifecycleOwner) { escola ->
+            if (escola != null) {
+                binding.editTextNomeEscola.setText(escola.nome)
+                binding.editTextEnderecoEscola.setText(escola.endereco)
+                binding.editTextTelefoneEscola.setText(escola.telefone)
+                binding.buttonSalvarEscola.text = "Atualizar"
+            } else {
+                binding.editTextNomeEscola.text.clear()
+                binding.editTextEnderecoEscola.text.clear()
+                binding.editTextTelefoneEscola.text.clear()
+                binding.buttonSalvarEscola.text = "Salvar"
+            }
         }
 
         binding.buttonSalvarEscola.setOnClickListener {
@@ -51,21 +69,35 @@ class EscolaFragment : Fragment() {
             val telefone = binding.editTextTelefoneEscola.text.toString()
 
             if (nome.isNotBlank()) {
-                val escola = Escola(nome = nome, endereco = endereco, telefone = telefone)
-                escolaViewModel.insert(escola)
-
-                // Limpar campos após inserção
-                binding.editTextNomeEscola.text.clear()
-                binding.editTextEnderecoEscola.text.clear()
-                binding.editTextTelefoneEscola.text.clear()
+                val escolaEmEdicao = escolaViewModel.escolaEmEdicao.value
+                if (escolaEmEdicao != null) {
+                    val escolaAtualizada = escolaEmEdicao.copy(nome = nome, endereco = endereco, telefone = telefone)
+                    escolaViewModel.update(escolaAtualizada)
+                } else {
+                    val novaEscola = Escola(nome = nome, endereco = endereco, telefone = telefone)
+                    escolaViewModel.insert(novaEscola)
+                }
+                escolaViewModel.onEditConcluido()
             } else {
                 Toast.makeText(context, "Nome da escola é obrigatório", Toast.LENGTH_LONG).show()
             }
         }
     }
 
+    private fun showDeleteConfirmationDialog(escola: Escola) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Deletar Escola")
+            .setMessage("Tem certeza que deseja deletar ${escola.nome}?")
+            .setPositiveButton("Sim") { _, _ ->
+                escolaViewModel.delete(escola)
+            }
+            .setNegativeButton("Não", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        escolaViewModel.onEditConcluido()
     }
 }

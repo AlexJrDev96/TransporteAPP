@@ -11,4 +11,12 @@ class TurmaRepository(private val turmaDao: TurmaDao) {
     suspend fun insert(turma: Turma) {
         turmaDao.insert(turma)
     }
+
+    suspend fun update(turma: Turma) {
+        turmaDao.update(turma)
+    }
+
+    suspend fun delete(turma: Turma) {
+        turmaDao.delete(turma)
+    }
 }

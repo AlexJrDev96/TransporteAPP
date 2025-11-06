@@ -11,4 +11,12 @@ class ResponsavelRepository(private val responsavelDao: ResponsavelDao) {
     suspend fun insert(responsavel: Responsavel) {
         responsavelDao.insert(responsavel)
     }
+
+    suspend fun update(responsavel: Responsavel) {
+        responsavelDao.update(responsavel)
+    }
+
+    suspend fun delete(responsavel: Responsavel) {
+        responsavelDao.delete(responsavel)
+    }
 }

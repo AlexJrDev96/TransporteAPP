@@ -3,6 +3,7 @@ package com.example.fragmentos.ui.turma
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,29 +11,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fragmentos.R
 import com.example.fragmentos.db.entity.Turma
 
-class TurmaListAdapter : ListAdapter<Turma, TurmaListAdapter.TurmaViewHolder>(TurmasComparator()) {
+class TurmaListAdapter(
+    private val onDeleteClicked: (Turma) -> Unit,
+    private val onEditClicked: (Turma) -> Unit
+) : ListAdapter<Turma, TurmaListAdapter.TurmaViewHolder>(TurmasComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TurmaViewHolder {
-        return TurmaViewHolder.create(parent)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_turma, parent, false)
+        return TurmaViewHolder(view, onDeleteClicked, onEditClicked)
     }
 
     override fun onBindViewHolder(holder: TurmaViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.nome)
+        holder.bind(current)
     }
 
-    class TurmaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TurmaViewHolder(
+        itemView: View,
+        private val onDeleteClicked: (Turma) -> Unit,
+        private val onEditClicked: (Turma) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val nomeItemView: TextView = itemView.findViewById(R.id.textViewNomeTurma)
+        private val deleteButton: ImageButton = itemView.findViewById(R.id.button_delete)
+        private val editButton: ImageButton = itemView.findViewById(R.id.button_edit)
 
-        fun bind(nome: String?) {
-            nomeItemView.text = nome
-        }
+        fun bind(turma: Turma) {
+            nomeItemView.text = turma.nome
 
-        companion object {
-            fun create(parent: ViewGroup): TurmaViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_turma, parent, false)
-                return TurmaViewHolder(view)
+            deleteButton.setOnClickListener {
+                onDeleteClicked(turma)
+            }
+            editButton.setOnClickListener {
+                onEditClicked(turma)
             }
         }
     }
