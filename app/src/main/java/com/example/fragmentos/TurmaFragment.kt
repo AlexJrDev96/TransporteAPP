@@ -54,9 +54,8 @@ class TurmaFragment : Fragment() {
             onDeleteClicked = { turma -> showDeleteConfirmationDialog(turma) },
             onEditClicked = { turma -> turmaViewModel.onTurmaEditClicked(turma) }
         )
-        // O RecyclerView de turmas foi removido do novo layout
-        // binding.recyclerViewTurmas.adapter = turmaAdapter
-        // binding.recyclerViewTurmas.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewTurmas.adapter = turmaAdapter
+        binding.recyclerViewTurmas.layoutManager = LinearLayoutManager(context)
 
         val alunoAdapter = AlunoListAdapter(onDeleteClicked = {}, onEditClicked = {})
         binding.recyclerViewAlunosFiltrados.adapter = alunoAdapter

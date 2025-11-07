@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Tripulante::class, Aluno::class, Responsavel::class, Escola::class, Turma::class, User::class], version = 10, exportSchema = false)
+@Database(entities = [Tripulante::class, Aluno::class, Responsavel::class, Escola::class, Turma::class, User::class], version = 11, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun tripulanteDao(): TripulanteDao
@@ -44,11 +44,9 @@ abstract class AppDatabase : RoomDatabase() {
     private class AppDatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            INSTANCE?.let {
-                database ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    prePopulateDatabase(database)
-                }
+            // A lógica é movida para uma corrotina que obtém a instância DEPOIS de criada
+            CoroutineScope(Dispatchers.IO).launch {
+                INSTANCE?.let { prePopulateDatabase(it) }
             }
         }
 
