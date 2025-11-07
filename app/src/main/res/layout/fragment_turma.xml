@@ -6,18 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".TurmaFragment">
 
+    <!-- Seção de Cadastro/Edição de Turma -->
     <ImageView
         android:id="@+id/imageViewTurmaHeader"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Imagem da Turma"
-        app:srcCompat="@drawable/turma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNomeTurma"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextNomeTurma"
@@ -29,32 +27,67 @@
         android:hint="Nome da Turma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewTurmaHeader"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerEscola" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTurmaHeader" />
+    
+    <TextView
+        android:id="@+id/labelPeriodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Período:"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomeTurma"/>
+
+    <Spinner
+        android:id="@+id/spinnerPeriodo"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelPeriodo" />
+
+    <TextView
+        android:id="@+id/labelEscola"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escola:"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPeriodo"/>
 
     <Spinner
         android:id="@+id/spinnerEscola"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNomeTurma"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerTripulante" />
+        app:layout_constraintTop_toBottomOf="@+id/labelEscola" />
+
+    <TextView
+        android:id="@+id/labelTripulante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tripulante:"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerEscola"/>
 
     <Spinner
         android:id="@+id/spinnerTripulante"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerEscola"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSalvarTurma" />
+        app:layout_constraintTop_toBottomOf="@+id/labelTripulante" />
 
     <Button
         android:id="@+id/buttonSalvarTurma"
@@ -66,18 +99,48 @@
         android:text="Salvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerTripulante"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewTurmas" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTripulante" />
+
+    <!-- Divisor -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSalvarTurma" />
+
+    <!-- Seção de Filtro de Alunos -->
+    <TextView
+        android:id="@+id/labelFiltroAlunos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alunos por Período"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Spinner
+        android:id="@+id/spinnerFiltroPeriodo"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/labelFiltroAlunos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewTurmas"
+        android:id="@+id/recyclerViewAlunosFiltrados"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSalvarTurma"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerFiltroPeriodo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_turma" />
+        tools:listitem="@layout/item_aluno" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

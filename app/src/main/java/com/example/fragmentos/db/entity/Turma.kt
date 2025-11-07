@@ -13,6 +13,7 @@ data class Turma(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val nome: String,
+    val periodo: String, // Novo campo
     val escolaId: Int,
     val tripulanteId: Int
 )

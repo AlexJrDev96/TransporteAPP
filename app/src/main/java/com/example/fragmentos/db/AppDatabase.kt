@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Tripulante::class, Aluno::class, Responsavel::class, Escola::class, Turma::class, User::class], version = 8, exportSchema = false)
+@Database(entities = [Tripulante::class, Aluno::class, Responsavel::class, Escola::class, Turma::class, User::class], version = 10, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun tripulanteDao(): TripulanteDao
@@ -60,10 +60,6 @@ abstract class AppDatabase : RoomDatabase() {
             responsavelDao.insert(Responsavel(nome = "João da Silva", cpf = "111.111.111-11", telefone = "11987654321", email = "joao@email.com", endereco = "Rua A, 123"))
             responsavelDao.insert(Responsavel(nome = "Maria Oliveira", cpf = "222.222.222-22", telefone = "11912345678", email = "maria@email.com", endereco = "Rua B, 456"))
 
-            val alunoDao = database.alunoDao()
-            alunoDao.insert(Aluno(nome = "Pedro Silva", dataNascimento = "01/01/2015", nomeResponsavel = "João da Silva", telefoneResponsavel = "11987654321", endereco = "Rua A, 123"))
-            alunoDao.insert(Aluno(nome = "Ana Oliveira", dataNascimento = "02/02/2016", nomeResponsavel = "Maria Oliveira", telefoneResponsavel = "11912345678", endereco = "Rua B, 456"))
-
             val tripulanteDao = database.tripulanteDao()
             tripulanteDao.insert(Tripulante(nome = "Carlos Souza", funcao = "Motorista", telefone = "11999998888", cpf = "333.333.333-33"))
             tripulanteDao.insert(Tripulante(nome = "Fernanda Lima", funcao = "Monitora", telefone = "11977776666", cpf = "444.444.444-44"))
@@ -72,7 +68,11 @@ abstract class AppDatabase : RoomDatabase() {
             escolaDao.insert(Escola(nome = "Escola Modelo", endereco = "Avenida Principal, 789", telefone = "1140028922"))
 
             val turmaDao = database.turmaDao()
-            turmaDao.insert(Turma(nome = "Turma da Manhã", escolaId = 1, tripulanteId = 1))
+            turmaDao.insert(Turma(nome = "Turma da Manhã", periodo = "Manhã", escolaId = 1, tripulanteId = 1))
+
+            val alunoDao = database.alunoDao()
+            alunoDao.insert(Aluno(nome = "Pedro Silva", dataNascimento = "01/01/2015", nomeResponsavel = "João da Silva", telefoneResponsavel = "11987654321", endereco = "Rua A, 123", turmaId = 1))
+            alunoDao.insert(Aluno(nome = "Ana Oliveira", dataNascimento = "02/02/2016", nomeResponsavel = "Maria Oliveira", telefoneResponsavel = "11912345678", endereco = "Rua B, 456", turmaId = 1))
         }
     }
 }

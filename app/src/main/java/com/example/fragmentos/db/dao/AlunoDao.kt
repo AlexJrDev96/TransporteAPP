@@ -23,6 +23,14 @@ interface AlunoDao {
     @Query("SELECT * FROM aluno ORDER BY nome ASC")
     fun getAll(): Flow<List<Aluno>>
 
+    @Query("""
+        SELECT a.* FROM aluno AS a
+        INNER JOIN turma AS t ON a.turmaId = t.id
+        WHERE t.periodo = :periodo
+        ORDER BY a.nome ASC
+    """)
+    fun getAlunosByPeriodo(periodo: String): Flow<List<Aluno>>
+
     @Query("DELETE FROM aluno")
     suspend fun deleteAll()
 }

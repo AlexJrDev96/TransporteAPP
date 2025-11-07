@@ -84,6 +84,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTelefoneResponsavel"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTurma" />
+
+    <Spinner
+        android:id="@+id/spinnerTurma"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEndereco"
         app:layout_constraintBottom_toTopOf="@+id/buttonSalvarAluno" />
 
     <Button
@@ -96,7 +108,7 @@
         android:text="Salvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEndereco" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTurma" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAlunos"

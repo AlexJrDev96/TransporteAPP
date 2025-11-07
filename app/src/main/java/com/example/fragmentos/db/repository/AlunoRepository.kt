@@ -19,4 +19,8 @@ class AlunoRepository(private val alunoDao: AlunoDao) {
     suspend fun delete(aluno: Aluno) {
         alunoDao.delete(aluno)
     }
+
+    fun getAlunosByPeriodo(periodo: String): Flow<List<Aluno>> {
+        return alunoDao.getAlunosByPeriodo(periodo)
+    }
 }

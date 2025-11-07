@@ -6,27 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fragmentos.db.entity.Aluno
+import com.example.fragmentos.db.entity.Turma
 import com.example.fragmentos.db.repository.AlunoRepository
+import com.example.fragmentos.db.repository.TurmaRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class AlunoViewModel(private val repository: AlunoRepository) : ViewModel() {
+class AlunoViewModel(
+    private val alunoRepository: AlunoRepository,
+    private val turmaRepository: TurmaRepository
+) : ViewModel() {
 
-    val allAlunos: Flow<List<Aluno>> = repository.allAlunos
+    val allAlunos: Flow<List<Aluno>> = alunoRepository.allAlunos
+    val allTurmas: Flow<List<Turma>> = turmaRepository.allTurmas
 
     private val _alunoEmEdicao = MutableLiveData<Aluno?>()
     val alunoEmEdicao: LiveData<Aluno?> = _alunoEmEdicao
 
     fun insert(aluno: Aluno) = viewModelScope.launch {
-        repository.insert(aluno)
+        alunoRepository.insert(aluno)
     }
 
     fun update(aluno: Aluno) = viewModelScope.launch {
-        repository.update(aluno)
+        alunoRepository.update(aluno)
     }
 
     fun delete(aluno: Aluno) = viewModelScope.launch {
-        repository.delete(aluno)
+        alunoRepository.delete(aluno)
     }
 
     fun onAlunoEditClicked(aluno: Aluno) {
@@ -38,11 +44,14 @@ class AlunoViewModel(private val repository: AlunoRepository) : ViewModel() {
     }
 }
 
-class AlunoViewModelFactory(private val repository: AlunoRepository) : ViewModelProvider.Factory {
+class AlunoViewModelFactory(
+    private val alunoRepository: AlunoRepository,
+    private val turmaRepository: TurmaRepository
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AlunoViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return AlunoViewModel(repository) as T
+            return AlunoViewModel(alunoRepository, turmaRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
