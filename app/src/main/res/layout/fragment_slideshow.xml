@@ -40,7 +40,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:src="@android:drawable/sym_def_app_icon" 
+                android:src="@drawable/alexpng"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
 
@@ -48,13 +48,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Nome Aluno 1"
+                android:text="Alex Manoel"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RA: 12345678"/>
+                android:text="RA:1701381 "/>
         </LinearLayout>
 
         <!-- Aluno 2 -->
@@ -68,7 +68,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:src="@android:drawable/sym_def_app_icon"
+                android:src="@drawable/anapng"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
 
@@ -76,13 +76,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Nome Aluno 2"
+                android:text="Ana Laura"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RA: 87654321"/>
+                android:text="RA:2402680"/>
         </LinearLayout>
 
         <!-- Aluno 3 -->
@@ -96,7 +96,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:src="@android:drawable/sym_def_app_icon"
+                android:src="@drawable/gustavopng"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"/>
 
@@ -104,13 +104,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Nome Aluno 3"
+                android:text="Gustavo Bomfim"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RA: 11223344"/>
+                android:text="RA:2403139"/>
         </LinearLayout>
 
     </LinearLayout>

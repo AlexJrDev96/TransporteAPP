@@ -1,36 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.home.HomeFragment">
 
-    <ImageView
-        android:id="@+id/imageViewWelcome"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:contentDescription="@string/app_name"
-        app:srcCompat="@drawable/logoappvan"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/text_home"
-        app:layout_constraintVertical_chainStyle="packed"/>
-
-    <TextView
-        android:id="@+id/text_home"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="Bem-vindo ao China Transportes!"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewWelcome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Projeto China Transportes"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Descrição do Projeto -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descrição do Projeto"
+            android:textSize="18sp"
+            android:textStyle="bold" 
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Este é um aplicativo Android para gerenciamento de transporte escolar. Ele permite o cadastro e a gestão completa de alunos, responsáveis, tripulantes (motoristas e monitores), escolas e turmas, garantindo organização e fácil acesso às informações."
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Como Começar -->
+
+        <!-- Funcionalidades -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Funcionalidades"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Sistema de Login e Registro de Usuários.\n• CRUD (Criar, Ler, Editar e Deletar) completo para Alunos, Responsáveis, Tripulantes, Escolas e Turmas.\n• Validação de campos e feedback para o usuário.\n• Interface responsiva e menu de navegação lateral.\n• Botão de contato rápido via WhatsApp."
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Tecnologias Utilizadas -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tecnologias Utilizadas"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Linguagem: Kotlin\n• Arquitetura: MVVM (ViewModel, Repository, LiveData)\n• Banco de Dados: Room Persistence Library\n• Navegação: Android Navigation Component\n• Interface: Material Design Components, RecyclerView, ConstraintLayout\n• View Binding para acesso seguro às views."/>
+
+    </LinearLayout>
+</ScrollView>
