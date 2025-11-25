@@ -1,10 +1,13 @@
 package com.example.fragmentos.ui.responsavel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.fragmentos.api.ApiClient
+import com.example.fragmentos.api.Endereco
 import com.example.fragmentos.db.entity.Responsavel
 import com.example.fragmentos.db.repository.ResponsavelRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +19,19 @@ class ResponsavelViewModel(private val repository: ResponsavelRepository) : View
 
     private val _responsavelEmEdicao = MutableLiveData<Responsavel?>()
     val responsavelEmEdicao: LiveData<Responsavel?> = _responsavelEmEdicao
+
+    private val _enderecoEncontrado = MutableLiveData<Endereco?>()
+    val enderecoEncontrado: LiveData<Endereco?> = _enderecoEncontrado
+
+    fun buscaEnderecoPorCep(cep: String) = viewModelScope.launch {
+        try {
+            val endereco = ApiClient.viaCepService.getEndereco(cep)
+            _enderecoEncontrado.postValue(endereco)
+        } catch (e: Exception) {
+            _enderecoEncontrado.postValue(null)
+            Log.e("ResponsavelViewModel", "Erro ao buscar CEP: ${e.message}")
+        }
+    }
 
     fun insert(responsavel: Responsavel) = viewModelScope.launch {
         repository.insert(responsavel)

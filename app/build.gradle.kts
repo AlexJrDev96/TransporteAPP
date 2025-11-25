@@ -52,6 +52,7 @@ dependencies {
     val junit_version = "4.13.2"
     val androidx_junit_version = "1.1.5"
     val espresso_core_version = "3.5.1"
+    val retrofit_version = "2.9.0"
 
     // Core
     implementation("androidx.core:core-ktx:$core_ktx_version")
@@ -59,7 +60,7 @@ dependencies {
     implementation("com.google.android.material:material:$material_version")
     implementation("androidx.constraintlayout:constraintlayout:$constraintlayout_version")
     
-    // Navigation (Causa do erro)
+    // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
@@ -71,6 +72,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    // Retrofit & Gson
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
     // Other
     implementation("de.hdodenhof:circleimageview:$circleimageview_version")

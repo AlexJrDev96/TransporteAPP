@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fragmentos.api.Endereco
 import com.example.fragmentos.databinding.FragmentAlunoBinding
 import com.example.fragmentos.db.entity.Aluno
 import com.example.fragmentos.db.entity.Turma
@@ -53,11 +54,10 @@ class AlunoFragment : Fragment() {
         binding.recyclerViewAlunos.layoutManager = LinearLayoutManager(context)
 
         setupObservers(adapter)
-        setupUI()
+        setupListeners()
     }
 
     private fun setupObservers(adapter: AlunoListAdapter) {
-        // Observa a lista de turmas para preencher o Spinner
         alunoViewModel.allTurmas.asLiveData().observe(viewLifecycleOwner) { turmasList ->
             if (turmasList == null) return@observe
             turmas = turmasList
@@ -66,7 +66,6 @@ class AlunoFragment : Fragment() {
             turmaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerTurma.adapter = turmaAdapter
 
-            // Se estiver em modo de edição, tenta pré-selecionar a turma correta agora que a lista está pronta
             alunoViewModel.alunoEmEdicao.value?.let { aluno ->
                 val turmaPosition = turmas.indexOfFirst { it.id == aluno.turmaId }
                 if (turmaPosition >= 0) {
@@ -85,10 +84,12 @@ class AlunoFragment : Fragment() {
                 binding.editTextDataNascimento.setText(aluno.dataNascimento)
                 binding.editTextNomeResponsavel.setText(aluno.nomeResponsavel)
                 binding.editTextTelefoneResponsavel.setText(aluno.telefoneResponsavel)
-                binding.editTextEndereco.setText(aluno.endereco)
+                binding.editTextCepAluno.setText(aluno.cep)
+                binding.editTextLogradouroAluno.setText(aluno.logradouro)
+                binding.editTextBairroAluno.setText(aluno.bairro)
+                binding.editTextNumeroAluno.setText(aluno.numero)
                 binding.buttonSalvarAluno.text = "Atualizar"
 
-                // Garante que o spinner seja atualizado se a lista de turmas já estiver carregada
                 if (::turmas.isInitialized) {
                     val turmaPosition = turmas.indexOfFirst { it.id == aluno.turmaId }
                     if (turmaPosition >= 0) {
@@ -96,18 +97,21 @@ class AlunoFragment : Fragment() {
                     }
                 }
             } else {
-                binding.editTextNomeAluno.text.clear()
-                binding.editTextDataNascimento.text.clear()
-                binding.editTextNomeResponsavel.text.clear()
-                binding.editTextTelefoneResponsavel.text.clear()
-                binding.editTextEndereco.text.clear()
-                if (::turmas.isInitialized && turmas.isNotEmpty()) binding.spinnerTurma.setSelection(0)
-                binding.buttonSalvarAluno.text = "Salvar"
+                clearForm()
+            }
+        }
+
+        alunoViewModel.enderecoEncontrado.observe(viewLifecycleOwner) { endereco ->
+            if (endereco != null) {
+                binding.editTextLogradouroAluno.setText(endereco.logradouro)
+                binding.editTextBairroAluno.setText(endereco.bairro)
+            } else {
+                Toast.makeText(context, "CEP não encontrado", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun setupUI() {
+    private fun setupListeners() {
         binding.spinnerTurma.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (::turmas.isInitialized && turmas.isNotEmpty()) {
@@ -119,36 +123,68 @@ class AlunoFragment : Fragment() {
             }
         }
 
-        binding.buttonSalvarAluno.setOnClickListener {
-            val nome = binding.editTextNomeAluno.text.toString()
-            val dataNascimento = binding.editTextDataNascimento.text.toString()
-            val nomeResponsavel = binding.editTextNomeResponsavel.text.toString()
-            val telefoneResponsavel = binding.editTextTelefoneResponsavel.text.toString()
-            val endereco = binding.editTextEndereco.text.toString()
-
-            if (nome.isBlank() || selectedTurmaId == null) {
-                Toast.makeText(context, "Nome e Turma são obrigatórios", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-
-            val alunoEmEdicao = alunoViewModel.alunoEmEdicao.value
-            val newOrUpdatedAluno = Aluno(
-                id = alunoEmEdicao?.id ?: 0,
-                nome = nome,
-                dataNascimento = dataNascimento,
-                nomeResponsavel = nomeResponsavel,
-                telefoneResponsavel = telefoneResponsavel,
-                endereco = endereco,
-                turmaId = selectedTurmaId!!
-            )
-
-            if (alunoEmEdicao != null) {
-                alunoViewModel.update(newOrUpdatedAluno)
+        binding.buttonBuscarCepAluno.setOnClickListener {
+            val cep = binding.editTextCepAluno.text.toString()
+            if (cep.length == 8) {
+                alunoViewModel.buscaEnderecoPorCep(cep)
             } else {
-                alunoViewModel.insert(newOrUpdatedAluno)
+                Toast.makeText(context, "Digite um CEP válido com 8 dígitos", Toast.LENGTH_SHORT).show()
             }
-            alunoViewModel.onEditConcluido()
         }
+
+        binding.buttonSalvarAluno.setOnClickListener {
+            saveAluno()
+        }
+    }
+
+    private fun saveAluno() {
+        val nome = binding.editTextNomeAluno.text.toString()
+        val dataNascimento = binding.editTextDataNascimento.text.toString()
+        val nomeResponsavel = binding.editTextNomeResponsavel.text.toString()
+        val telefoneResponsavel = binding.editTextTelefoneResponsavel.text.toString()
+        val cep = binding.editTextCepAluno.text.toString()
+        val logradouro = binding.editTextLogradouroAluno.text.toString()
+        val bairro = binding.editTextBairroAluno.text.toString()
+        val numero = binding.editTextNumeroAluno.text.toString()
+
+        if (nome.isBlank() || selectedTurmaId == null) {
+            Toast.makeText(context, "Nome e Turma são obrigatórios", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val alunoEmEdicao = alunoViewModel.alunoEmEdicao.value
+        val newOrUpdatedAluno = Aluno(
+            id = alunoEmEdicao?.id ?: 0,
+            nome = nome,
+            dataNascimento = dataNascimento,
+            nomeResponsavel = nomeResponsavel,
+            telefoneResponsavel = telefoneResponsavel,
+            cep = cep,
+            logradouro = logradouro,
+            bairro = bairro,
+            numero = numero,
+            turmaId = selectedTurmaId!!
+        )
+
+        if (alunoEmEdicao != null) {
+            alunoViewModel.update(newOrUpdatedAluno)
+        } else {
+            alunoViewModel.insert(newOrUpdatedAluno)
+        }
+        alunoViewModel.onEditConcluido()
+    }
+
+    private fun clearForm() {
+        binding.editTextNomeAluno.text.clear()
+        binding.editTextDataNascimento.text.clear()
+        binding.editTextNomeResponsavel.text.clear()
+        binding.editTextTelefoneResponsavel.text.clear()
+        binding.editTextCepAluno.text.clear()
+        binding.editTextLogradouroAluno.text.clear()
+        binding.editTextBairroAluno.text.clear()
+        binding.editTextNumeroAluno.text.clear()
+        if (::turmas.isInitialized && turmas.isNotEmpty()) binding.spinnerTurma.setSelection(0)
+        binding.buttonSalvarAluno.text = "Salvar"
     }
 
     private fun showDeleteConfirmationDialog(aluno: Aluno) {

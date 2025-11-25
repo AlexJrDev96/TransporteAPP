@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TripulanteDao {
 
+    @Query("SELECT * FROM tripulante ORDER BY nome ASC")
+    fun getAll(): Flow<List<Tripulante>>
+
     @Insert
     suspend fun insert(tripulante: Tripulante)
 
@@ -19,10 +22,4 @@ interface TripulanteDao {
 
     @Delete
     suspend fun delete(tripulante: Tripulante)
-
-    @Query("SELECT * FROM tripulante ORDER BY nome ASC")
-    fun getAll(): Flow<List<Tripulante>>
-
-    @Query("DELETE FROM tripulante")
-    suspend fun deleteAll()
 }

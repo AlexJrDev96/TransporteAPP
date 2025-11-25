@@ -1,10 +1,13 @@
 package com.example.fragmentos.ui.aluno
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.fragmentos.api.ApiClient
+import com.example.fragmentos.api.Endereco
 import com.example.fragmentos.db.entity.Aluno
 import com.example.fragmentos.db.entity.Turma
 import com.example.fragmentos.db.repository.AlunoRepository
@@ -22,6 +25,26 @@ class AlunoViewModel(
 
     private val _alunoEmEdicao = MutableLiveData<Aluno?>()
     val alunoEmEdicao: LiveData<Aluno?> = _alunoEmEdicao
+
+    // LiveData para expor o endereço encontrado para o Fragment
+    private val _enderecoEncontrado = MutableLiveData<Endereco?>()
+    val enderecoEncontrado: LiveData<Endereco?> = _enderecoEncontrado
+
+    /**
+     * Busca o endereço usando o ApiClient centralizado.
+     */
+    fun buscaEnderecoPorCep(cep: String) {
+        viewModelScope.launch {
+            try {
+                // Chama a API através do ApiClient singleton
+                val endereco = ApiClient.viaCepService.getEndereco(cep)
+                _enderecoEncontrado.postValue(endereco)
+            } catch (e: Exception) {
+                _enderecoEncontrado.postValue(null)
+                Log.e("AlunoViewModel", "Erro ao buscar CEP: ${e.message}")
+            }
+        }
+    }
 
     fun insert(aluno: Aluno) = viewModelScope.launch {
         alunoRepository.insert(aluno)

@@ -8,6 +8,11 @@ class AlunoRepository(private val alunoDao: AlunoDao) {
 
     val allAlunos: Flow<List<Aluno>> = alunoDao.getAll()
 
+    // Função que estava faltando
+    fun getAlunosByPeriodo(periodo: String): Flow<List<Aluno>> {
+        return alunoDao.getAlunosByPeriodo(periodo)
+    }
+
     suspend fun insert(aluno: Aluno) {
         alunoDao.insert(aluno)
     }
@@ -18,9 +23,5 @@ class AlunoRepository(private val alunoDao: AlunoDao) {
 
     suspend fun delete(aluno: Aluno) {
         alunoDao.delete(aluno)
-    }
-
-    fun getAlunosByPeriodo(periodo: String): Flow<List<Aluno>> {
-        return alunoDao.getAlunosByPeriodo(periodo)
     }
 }

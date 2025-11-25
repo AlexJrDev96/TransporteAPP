@@ -45,6 +45,11 @@ class ResponsavelFragment : Fragment() {
         binding.recyclerViewResponsaveis.adapter = adapter
         binding.recyclerViewResponsaveis.layoutManager = LinearLayoutManager(context)
 
+        setupObservers(adapter)
+        setupListeners()
+    }
+
+    private fun setupObservers(adapter: ResponsavelListAdapter) {
         responsavelViewModel.allResponsaveis.asLiveData().observe(viewLifecycleOwner) {
             responsaveis -> responsaveis?.let { adapter.submitList(it) }
         }
@@ -53,53 +58,89 @@ class ResponsavelFragment : Fragment() {
             if (responsavel != null) {
                 binding.editTextNomeResponsavel.setText(responsavel.nome)
                 binding.editTextCpfResponsavel.setText(responsavel.cpf)
+                binding.editTextCepResponsavel.setText(responsavel.cep)
+                binding.editTextLogradouroResponsavel.setText(responsavel.logradouro)
+                binding.editTextBairroResponsavel.setText(responsavel.bairro)
+                binding.editTextNumeroResponsavel.setText(responsavel.numero)
                 binding.editTextTelefoneResponsavel.setText(responsavel.telefone)
                 binding.editTextEmailResponsavel.setText(responsavel.email)
-                binding.editTextEnderecoResponsavel.setText(responsavel.endereco)
                 binding.buttonSalvarResponsavel.text = "Atualizar"
             } else {
-                binding.editTextNomeResponsavel.text.clear()
-                binding.editTextCpfResponsavel.text.clear()
-                binding.editTextTelefoneResponsavel.text.clear()
-                binding.editTextEmailResponsavel.text.clear()
-                binding.editTextEnderecoResponsavel.text.clear()
-                binding.buttonSalvarResponsavel.text = "Salvar"
+                clearForm()
+            }
+        }
+
+        // Observador para a resposta da API
+        responsavelViewModel.enderecoEncontrado.observe(viewLifecycleOwner) { endereco ->
+            if (endereco != null) {
+                binding.editTextLogradouroResponsavel.setText(endereco.logradouro)
+                binding.editTextBairroResponsavel.setText(endereco.bairro)
+            } else {
+                Toast.makeText(context, "CEP não encontrado", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun setupListeners() {
+        // Conecta a busca da API ao clique do botão
+        binding.buttonBuscarCep.setOnClickListener {
+            val cep = binding.editTextCepResponsavel.text.toString()
+            if (cep.length == 8) {
+                responsavelViewModel.buscaEnderecoPorCep(cep)
+            } else {
+                Toast.makeText(context, "Digite um CEP válido com 8 dígitos", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.buttonSalvarResponsavel.setOnClickListener {
-            val nome = binding.editTextNomeResponsavel.text.toString()
-            val cpf = binding.editTextCpfResponsavel.text.toString()
-            val telefone = binding.editTextTelefoneResponsavel.text.toString()
-            val email = binding.editTextEmailResponsavel.text.toString()
-            val endereco = binding.editTextEnderecoResponsavel.text.toString()
-
-            if (nome.isNotBlank() && cpf.isNotBlank()) {
-                val responsavelEmEdicao = responsavelViewModel.responsavelEmEdicao.value
-                if (responsavelEmEdicao != null) {
-                    val responsavelAtualizado = responsavelEmEdicao.copy(
-                        nome = nome, 
-                        cpf = cpf, 
-                        telefone = telefone, 
-                        email = email, 
-                        endereco = endereco
-                    )
-                    responsavelViewModel.update(responsavelAtualizado)
-                } else {
-                    val novoResponsavel = Responsavel(
-                        nome = nome, 
-                        cpf = cpf, 
-                        telefone = telefone, 
-                        email = email, 
-                        endereco = endereco
-                    )
-                    responsavelViewModel.insert(novoResponsavel)
-                }
-                responsavelViewModel.onEditConcluido()
-            } else {
-                Toast.makeText(context, "Nome e CPF são obrigatórios", Toast.LENGTH_LONG).show()
-            }
+            saveResponsavel()
         }
+    }
+
+    private fun saveResponsavel() {
+        val nome = binding.editTextNomeResponsavel.text.toString()
+        val cpf = binding.editTextCpfResponsavel.text.toString()
+        val cep = binding.editTextCepResponsavel.text.toString()
+        val logradouro = binding.editTextLogradouroResponsavel.text.toString()
+        val bairro = binding.editTextBairroResponsavel.text.toString()
+        val numero = binding.editTextNumeroResponsavel.text.toString()
+        val telefone = binding.editTextTelefoneResponsavel.text.toString()
+        val email = binding.editTextEmailResponsavel.text.toString()
+
+        if (nome.isNotBlank() && cpf.isNotBlank()) {
+            val responsavelEmEdicao = responsavelViewModel.responsavelEmEdicao.value
+            val newOrUpdatedResponsavel = Responsavel(
+                id = responsavelEmEdicao?.id ?: 0,
+                nome = nome, 
+                cpf = cpf, 
+                cep = cep,
+                logradouro = logradouro,
+                bairro = bairro,
+                numero = numero,
+                telefone = telefone, 
+                email = email
+            )
+            if (responsavelEmEdicao != null) {
+                responsavelViewModel.update(newOrUpdatedResponsavel)
+            } else {
+                responsavelViewModel.insert(newOrUpdatedResponsavel)
+            }
+            responsavelViewModel.onEditConcluido()
+        } else {
+            Toast.makeText(context, "Nome e CPF são obrigatórios", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun clearForm() {
+        binding.editTextNomeResponsavel.text.clear()
+        binding.editTextCpfResponsavel.text.clear()
+        binding.editTextCepResponsavel.text.clear()
+        binding.editTextLogradouroResponsavel.text.clear()
+        binding.editTextBairroResponsavel.text.clear()
+        binding.editTextNumeroResponsavel.text.clear()
+        binding.editTextTelefoneResponsavel.text.clear()
+        binding.editTextEmailResponsavel.text.clear()
+        binding.buttonSalvarResponsavel.text = "Salvar"
     }
 
     private fun showDeleteConfirmationDialog(responsavel: Responsavel) {

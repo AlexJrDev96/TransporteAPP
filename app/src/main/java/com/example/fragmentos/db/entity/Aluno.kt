@@ -15,6 +15,9 @@ data class Aluno(
     val dataNascimento: String,
     val nomeResponsavel: String,
     val telefoneResponsavel: String,
-    val endereco: String,
+    val cep: String,
+    val logradouro: String,
+    val bairro: String,
+    val numero: String,
     val turmaId: Int
 )
