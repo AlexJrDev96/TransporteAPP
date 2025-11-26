@@ -36,7 +36,8 @@ class LoginFragment : Fragment() {
 
         loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
             if (result.success) {
-                findNavController().navigate(R.id.action_loginFragment_to_nav_gallery)
+                // Navega para a tela principal após o login
+                findNavController().navigate(R.id.action_nav_login_to_nav_home)
             } else {
                 Toast.makeText(context, result.error, Toast.LENGTH_SHORT).show()
             }
@@ -52,14 +53,10 @@ class LoginFragment : Fragment() {
             }
         }
 
+        // Ação do botão corrigida
         binding.buttonRegister.setOnClickListener {
-            val email = binding.editTextEmail.text.toString()
-            val password = binding.editTextPassword.text.toString()
-            if (email.isNotBlank() && password.isNotBlank()) {
-                loginViewModel.register(email, password)
-            } else {
-                Toast.makeText(context, "Preencha todos os campos para se registrar", Toast.LENGTH_SHORT).show()
-            }
+            // Navega para a nova tela de registro
+            findNavController().navigate(R.id.action_nav_login_to_nav_register)
         }
     }
 

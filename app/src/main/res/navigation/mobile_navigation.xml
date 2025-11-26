@@ -3,19 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/loginFragment">
+    app:startDestination="@id/nav_login">
 
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/nav_login"
         android:name="com.example.fragmentos.ui.login.LoginFragment"
-        android:label="Login"
+        android:label="@string/menu_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_nav_gallery"
-            app:destination="@id/nav_gallery"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_register"
+            app:destination="@id/nav_register" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.example.fragmentos.ui.login.RegisterFragment"
+        android:label="fragment_register" 
+        tools:layout="@layout/fragment_register" />
 
     <fragment
         android:id="@+id/nav_home"
@@ -27,22 +34,22 @@
         android:id="@+id/nav_gallery"
         android:name="com.example.fragmentos.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" >
+        tools:layout="@layout/fragment_gallery">
         <action
             android:id="@+id/action_nav_gallery_to_alunoFragment"
-            app:destination="@id/alunoFragment" />
+            app:destination="@id/nav_aluno" />
         <action
             android:id="@+id/action_nav_gallery_to_responsavelFragment"
-            app:destination="@id/responsavelFragment" />
-        <action
-            android:id="@+id/action_nav_gallery_to_turmaFragment2"
-            app:destination="@id/turmaFragment" />
+            app:destination="@id/nav_responsavel" />
         <action
             android:id="@+id/action_nav_gallery_to_tripulanteFragment"
-            app:destination="@id/tripulanteFragment" />
+            app:destination="@id/nav_tripulante" />
+        <action
+            android:id="@+id/action_nav_gallery_to_turmaFragment2"
+            app:destination="@id/nav_turma" />
         <action
             android:id="@+id/action_nav_gallery_to_escolaFragment"
-            app:destination="@id/escolaFragment" />
+            app:destination="@id/nav_escola" />
     </fragment>
 
     <fragment
@@ -50,29 +57,35 @@
         android:name="com.example.fragmentos.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
     <fragment
-        android:id="@+id/alunoFragment"
+        android:id="@+id/nav_aluno"
         android:name="com.example.fragmentos.AlunoFragment"
-        android:label="Cadastro de Aluno"
+        android:label="@string/menu_aluno"
         tools:layout="@layout/fragment_aluno" />
+
     <fragment
-        android:id="@+id/responsavelFragment"
+        android:id="@+id/nav_responsavel"
         android:name="com.example.fragmentos.ResponsavelFragment"
-        android:label="Cadastro de Responsável"
-        tools:layout="@layout/fragment_responsavel" />
+        android:label="@string/menu_responsavel"
+        tools:layout="@layout/fragment_responsavel"/>
+
     <fragment
-        android:id="@+id/turmaFragment"
+        android:id="@+id/nav_turma"
         android:name="com.example.fragmentos.TurmaFragment"
-        android:label="Cadastro de Turma"
-        tools:layout="@layout/fragment_turma" />
+        android:label="@string/menu_turma"
+        tools:layout="@layout/fragment_turma"/>
+
     <fragment
-        android:id="@+id/tripulanteFragment"
-        android:name="com.example.fragmentos.TripulanteFragment"
-        android:label="Cadastro de Tripulante"
-        tools:layout="@layout/fragment_tripulante" />
-    <fragment
-        android:id="@+id/escolaFragment"
+        android:id="@+id/nav_escola"
         android:name="com.example.fragmentos.EscolaFragment"
-        android:label="Cadastro de Escola"
-        tools:layout="@layout/fragment_escola" />
+        android:label="@string/menu_escola"
+        tools:layout="@layout/fragment_escola"/>
+
+    <fragment
+        android:id="@+id/nav_tripulante"
+        android:name="com.example.fragmentos.TripulanteFragment"
+        android:label="@string/menu_tripulante"
+        tools:layout="@layout/fragment_tripulante"/>
+
 </navigation>

@@ -15,8 +15,7 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(email: String, password: String) = viewModelScope.launch {
-        val user = repository.findByEmail(email)
-        // Compara a senha como texto puro
+        val user = repository.getUserByEmail(email)
         if (user != null && user.password == password) {
             _loginResult.value = LoginResult(success = true)
         } else {
@@ -24,15 +23,9 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    fun register(email: String, password: String) = viewModelScope.launch {
-        if (repository.findByEmail(email) != null) {
-            _loginResult.value = LoginResult(success = false, error = "E-mail já cadastrado")
-            return@launch
-        }
-        // Salva a senha como texto puro
-        val user = User(email = email, password = password)
+    // Função que estava faltando
+    fun insert(user: User) = viewModelScope.launch {
         repository.insert(user)
-        _loginResult.value = LoginResult(success = true) // Login automático após registro
     }
 }
 

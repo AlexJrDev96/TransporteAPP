@@ -5,11 +5,12 @@ import com.example.fragmentos.db.entity.User
 
 class UserRepository(private val userDao: UserDao) {
 
-    suspend fun insert(user: User) {
-        userDao.insert(user)
+    // Função que o LoginViewModel precisa
+    suspend fun getUserByEmail(email: String): User? {
+        return userDao.findByEmail(email)
     }
 
-    suspend fun findByEmail(email: String): User? {
-        return userDao.findByEmail(email)
+    suspend fun insert(user: User) {
+        userDao.insert(user)
     }
 }
