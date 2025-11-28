@@ -14,54 +14,104 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Projeto China Transportes"
+            android:text="Bem-vindo ao China Transportes"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"/>
 
-        <!-- Descrição do Projeto -->
+        <!-- Como Começar -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descrição do Projeto"
+            android:text="Como Usar o Aplicativo"
             android:textSize="18sp"
             android:textStyle="bold" 
             android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Este é um aplicativo Android para gerenciamento de transporte escolar. Ele permite o cadastro e a gestão completa de alunos, responsáveis, tripulantes (motoristas e monitores), escolas e turmas, garantindo organização e fácil acesso às informações."
-            android:layout_marginBottom="16dp"/>
+            android:text="Este é um guia rápido para ajudar você a gerenciar todas as informações do seu transporte escolar de forma fácil e organizada."
+            android:layout_marginBottom="24dp"/>
 
-        <!-- Como Começar -->
-
-        <!-- Funcionalidades -->
+        <!-- DICA IMPORTANTE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Funcionalidades"
+            android:text="Dica: Ordem Recomendada dos Cadastros"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• Sistema de Login e Registro de Usuários.\n• CRUD (Criar, Ler, Editar e Deletar) completo para Alunos, Responsáveis, Tripulantes, Escolas e Turmas.\n• Validação de campos e feedback para o usuário.\n• Interface responsiva e menu de navegação lateral.\n• Botão de contato rápido via WhatsApp."
-            android:layout_marginBottom="16dp"/>
+            android:text="Para que tudo funcione corretamente, alguns cadastros dependem de outros. Por exemplo, antes de cadastrar um Aluno, você precisa que a Turma dele já exista.
 
-        <!-- Tecnologias Utilizadas -->
+Recomendamos seguir esta ordem:
+1. Cadastre as Escolas.
+2. Cadastre as Turmas.
+3. Cadastre os Responsáveis e Tripulantes.
+4. Finalmente, cadastre os Alunos."
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Passo 1: Navegando no App -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tecnologias Utilizadas"
+            android:text="1. Acessando as Seções"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• Linguagem: Kotlin\n• Arquitetura: MVVM (ViewModel, Repository, LiveData)\n• Banco de Dados: Room Persistence Library\n• Navegação: Android Navigation Component\n• Interface: Material Design Components, RecyclerView, ConstraintLayout\n• View Binding para acesso seguro às views."/>
+            android:text="• Para começar, toque no ícone de menu (☰) no canto superior esquerdo da tela.
+• Um menu lateral irá aparecer com todas as seções disponíveis: Alunos, Responsáveis, Escolas, Tripulantes e Turmas."
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Passo 2: Cadastrando -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. Como Adicionar um Novo Cadastro"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Após entrar em uma seção (por exemplo, 'Alunos'), você verá um botão redondo com um sinal de '+' no canto inferior direito da tela.
+• Toque neste botão para abrir o formulário de cadastro. Preencha as informações e toque em 'Salvar'."
+            android:layout_marginBottom="24dp"/>
+            
+        <!-- Passo 3: Editando e Excluindo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Como Editar ou Excluir"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Em cada item da lista, você encontrará dois ícones:
+  - Ícone de Lápis (✏️): Toque para abrir e editar as informações daquele item.
+  - Ícone de Lixeira (🗑️): Toque para remover um item do cadastro. Uma mensagem de confirmação aparecerá para evitar exclusões acidentais."
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Contato -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precisa de Ajuda?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Se tiver qualquer dúvida ou problema, toque no botão flutuante de envelope na tela principal para entrar em contato conosco diretamente pelo WhatsApp."/>
 
     </LinearLayout>
 </ScrollView>
