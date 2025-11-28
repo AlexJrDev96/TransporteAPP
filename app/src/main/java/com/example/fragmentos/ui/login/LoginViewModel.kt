@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fragmentos.db.entity.User
 import com.example.fragmentos.db.repository.UserRepository
+import com.example.fragmentos.util.PasswordHasher
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
@@ -16,14 +17,17 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun login(email: String, password: String) = viewModelScope.launch {
         val user = repository.getUserByEmail(email)
-        if (user != null && user.password == password) {
+
+        // Criptografa a senha digitada para comparar com a senha salva
+        val hashedPassword = PasswordHasher.hashPassword(password)
+
+        if (user != null && user.password == hashedPassword) {
             _loginResult.value = LoginResult(success = true)
         } else {
             _loginResult.value = LoginResult(success = false, error = "E-mail ou senha inválidos")
         }
     }
 
-    // Função que estava faltando
     fun insert(user: User) = viewModelScope.launch {
         repository.insert(user)
     }

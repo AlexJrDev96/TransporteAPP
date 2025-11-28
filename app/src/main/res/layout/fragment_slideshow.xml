@@ -125,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Data de Criação: DD/MM/AAAA"
+        android:text="Data de Criação: 14/07/2024"
         android:textSize="14sp"/>
 
 </LinearLayout>

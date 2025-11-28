@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.fragmentos.TransporteApplication
 import com.example.fragmentos.databinding.FragmentRegisterBinding
 import com.example.fragmentos.db.entity.User
+import com.example.fragmentos.util.PasswordHasher
 
 class RegisterFragment : Fragment() {
 
@@ -35,16 +36,26 @@ class RegisterFragment : Fragment() {
         binding.buttonRegister.setOnClickListener {
             val email = binding.editTextEmail.text.toString()
             val password = binding.editTextPassword.text.toString()
+            val confirmPassword = binding.editTextConfirmPassword.text.toString()
 
-            if (email.isNotBlank() && password.isNotBlank()) {
-                val newUser = User(email = email, password = password)
-                loginViewModel.insert(newUser)
-                Toast.makeText(context, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
-                // Volta para a tela de login
-                findNavController().navigateUp()
-            } else {
+            if (email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
                 Toast.makeText(context, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            if (password != confirmPassword) {
+                Toast.makeText(context, "As senhas não correspondem", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Criptografa a senha antes de salvar
+            val hashedPassword = PasswordHasher.hashPassword(password)
+            val newUser = User(email = email, password = hashedPassword)
+            
+            loginViewModel.insert(newUser)
+            Toast.makeText(context, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+            // Volta para a tela de login
+            findNavController().navigateUp()
         }
     }
 
