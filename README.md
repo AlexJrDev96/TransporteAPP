@@ -78,8 +78,6 @@ Siga os passos abaixo para clonar e executar o aplicativo em seu ambiente de des
 
 ## 📱 Telas do Aplicativo
 
-*(prints das telas principais do app)*
-
 |           Login            | Menu Principal |        Cadastro de Aluno         |
 |:--------------------------:|:---:|:--------------------------------:|
 | ![Login](prints/login.jpg) | ![Menu](link_da_imagem_aqui) | ![Cadastro](prints/cadastro.jpg) |
