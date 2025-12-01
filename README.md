@@ -78,10 +78,16 @@ Siga os passos abaixo para clonar e executar o aplicativo em seu ambiente de des
 
 ## 📱 Telas do Aplicativo
 
-*(prints das telas principais do app)*
+|           Login            |      Menu Principal      |        Cadastro de Aluno         |
+|:--------------------------:|:------------------------:|:--------------------------------:|
+| ![Login](prints/login.jpg) | ![Menu](prints/menu.jpg) | ![Cadastro](prints/cadastro.jpg) |
 
-| Login | Menu Principal | Cadastro de Aluno | Lista |
-|:---:|:---:|:---:|:---:|
-| ![Login](link_da_imagem_aqui) | ![Menu](link_da_imagem_aqui) | ![Cadastro](link_da_imagem_aqui) | ![Lista](link_da_imagem_aqui) |
+---
+
+## 👨‍💻 Autores
+
+- **Alex Manoel** — RA: 1701381
+- **Ana Laura** — RA: 2402680
+- **Gustavo Bomfim** — RA: 2403139
 
 ---
